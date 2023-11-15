@@ -28,21 +28,21 @@ For the license of the `stlpy` toolbox, refer to `stlpy/LICENSE`.
 ## Changes made to include multiple rho variables
 
 - Change the dimension of rho variables:
-'''
+```
 self.rho = self.model.addMVar((self.T, ), name="rho", lb=0.0)   # 1->self.T to incorporate multiple dimensions
-'''
+```
 - Change the cost function:
-'''
+```
 def AddRobustnessCost(self):
         self.cost -= np.ones(self.rho.shape).T @ self.rho  # The cost is the negative summary of multiple rho values
-'''
-- Additional constraints to specify the satisfaction of specifications
-'''
+```
+- Multiple constraints to restrict the limits for rhos
+```
 def AddRobustnessConstraint(self, rho_min=0.0):
         for rho in self.rho:
             self.model.addConstr( rho >= rho_min )
-'''
--
+```
+- Multiple constraints to specify the satisfaction of specifications
 ```
 if isinstance(formula, LinearPredicate):
             # self.rho -> self.rho[t]
